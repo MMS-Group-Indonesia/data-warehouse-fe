@@ -8,7 +8,9 @@
         "watch-poll": "mix watch -- --watch-options-poll=1000",
         "hot": "mix watch --hot",
         "prod": "npm run production",
-        "production": "mix --production"
+        "production": "mix --production",
+        "artisan": "php81 artisan",
+        "composer": "php81 ../bin/composer"
     },
     "devDependencies": {
         "axios": "^0.21",

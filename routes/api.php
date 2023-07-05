@@ -17,3 +17,12 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::group([ 'middleware' => 'api', 'prefix' => '', 'namespace' => 'App\Http\Controllers' ], function ($router) {
+
+    Route::get('/request-update/column', 'EmployeeController@request_update_column')->name('index-request-update-column-api');
+
+    Route::get('/request-update/data', 'EmployeeController@request_update_data')->name('index-request-update-data-api');
+
+    Route::post('/request-update/import', 'EmployeeController@request_update_import')->name('index-request-update-import-api');
+});
