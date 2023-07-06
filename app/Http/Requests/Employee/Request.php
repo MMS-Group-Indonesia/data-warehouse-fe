@@ -38,22 +38,39 @@ class Request extends FormRequest
 
     public function getColumnRequestUpdate($table = '')
     {
-        $tableColumnInfos = DB::select("SELECT
-        cols.column_name, (
-            SELECT
-                pg_catalog.col_description(c.oid, cols.ordinal_position::int)
-            FROM
-                pg_catalog.pg_class c
-            WHERE
-                c.oid = (SELECT (cols.table_name)::regclass::oid)
-                AND c.relname = cols.table_name
-        ) AS column_comment
-    FROM
-        information_schema.columns cols
-    WHERE
-        cols.table_catalog    = " . "'data_warehouse'" . "
-        AND cols.table_name   = " . "'request_updates'" . "
-        AND cols.table_schema = " . "'public'");
+        //pgsql
+    //     $sql = "SELECT
+    //     cols.column_name, (
+    //         SELECT
+    //             pg_catalog.col_description(c.oid, cols.ordinal_position::int)
+    //         FROM
+    //             pg_catalog.pg_class c
+    //         WHERE
+    //             c.oid = (SELECT (cols.table_name)::regclass::oid)
+    //             AND c.relname = cols.table_name
+    //     ) AS column_comment
+    // FROM
+    //     information_schema.columns cols
+    // WHERE
+    //     cols.table_catalog    = " . "'data_warehouse'" . "
+    //     AND cols.table_name   = " . "'request_updates'" . "
+    //     AND cols.table_schema = " . "'public'";
+
+        //sqlserver
+        $sql = "SELECT t.Name TableName, c.column_id, c.name column_name, ep.value column_comment
+        FROM sys.objects AS T
+            JOIN sys.columns AS c ON T.object_id = c.object_id
+            JOIN sys.extended_properties ep on ep.major_id = T.object_id AND ep.minor_id = c.column_id
+        WHERE T.Type = 'U' and ep.name = 'MS_Description' and t.Name = 'request_updates'
+        UNION ALL
+        SELECT  T.name, 0, null, ep.value
+        FROM sys.tables T
+            JOIN sys.extended_properties ep on T.object_id = ep.major_id AND ep.minor_id = 0
+        WHERE T.Type = 'U' and ep.name = 'MS_Description' and t.Name = 'request_updates'
+    ORDER BY t.name, column_id";
+
+
+        $tableColumnInfos = DB::select($sql);
         $data = [];
         foreach ($tableColumnInfos as $tableColumnInfo) {
             if($tableColumnInfo->column_comment == null) {
@@ -64,6 +81,7 @@ class Request extends FormRequest
                 'comment' => $tableColumnInfo->column_comment,
             ];
         }
+    
 
         return $data;
     }
