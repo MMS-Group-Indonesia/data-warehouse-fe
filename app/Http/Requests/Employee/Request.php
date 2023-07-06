@@ -242,6 +242,7 @@ class Request extends FormRequest
                 continue;
             }
             $data = [
+                'request_update_id' => Str::uuid(),
                 'hrbp' => $row["hrbp"] ,
                 'nik' => $row["id"] ,
                 'fullname' => $row["full_name"] ,
