@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::table('request_updates', function($table) {
             $table->string('upload_filename', 200)->nullable()->comment('Upload Filename');
-            $table->timestamp('uploaded_at', 200)->nullable()->comment('Uploaded At');
+            $table->timestamp('uploaded_at')->nullable()->comment('Uploaded At');
         });
     }
 

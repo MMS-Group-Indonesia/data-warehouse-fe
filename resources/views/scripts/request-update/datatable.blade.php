@@ -10,6 +10,7 @@ $(function(){
     var dtRequestUpdate = $('#dtRequestUpdate').DataTable( {
         "processing": true,
         "serverSide": true,
+        responsive: true,
         language: {
             searchPlaceholder: "Search Here"
         },
