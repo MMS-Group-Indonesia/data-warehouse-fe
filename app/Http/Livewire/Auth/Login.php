@@ -18,9 +18,9 @@ class Login extends Component
 
     public function mount() {
         if(auth()->user()){
-            redirect('/dashboard');
+            redirect('/request-update');
         }
-        $this->fill(['email' => 'admin@softui.com', 'password' => 'secret']);
+        $this->fill(['email' => 'admin@mmsgroup.co.id', 'password' => 'secret']);
     }
 
     public function login() {

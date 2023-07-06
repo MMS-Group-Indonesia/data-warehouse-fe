@@ -6,10 +6,9 @@
                     <div class="card card-plain mt-8">
                         <div class="card-header pb-0 text-left bg-transparent">
                             <h3 class="font-weight-bolder text-info text-gradient">{{ __('Welcome back') }}</h3>
-                            <p class="mb-0">{{ __('Create a new acount')}}<br></p>
-                            <p class="mb-0">{{__('OR Sign in with these credentials:') }}</p>
-                            <p class="mb-0">{{ __('Email ') }}<b>{{ __('admin@softui.com') }}</b></p>
-                            <p class="mb-0">{{ __('Password ') }}<b>{{ __('secret') }}</b></p>
+                            <p class="mb-0"></p>
+                            <p class="mb-0"></b></p>
+                            <p class="mb-0"></b></p>
                         </div>
                         <div class="card-body">
                             <form wire:submit.prevent="login" action="#" method="POST" role="form text-left">
@@ -41,7 +40,7 @@
                                 </div>
                             </form>
                         </div>
-                        <div class="card-footer text-center pt-0 px-lg-2 px-1">
+                        <!-- <div class="card-footer text-center pt-0 px-lg-2 px-1">
                             <small class="text-muted">{{ __('Forgot you password? Reset you password') }} <a
                                     href="{{ route('forgot-password') }}"
                                     class="text-info text-gradient font-weight-bold">{{ __('here') }}</a></small>
@@ -50,7 +49,7 @@
                                 <a href="{{ route('sign-up') }}"
                                     class="text-info text-gradient font-weight-bold">{{ __('Sign up') }}</a>
                             </p>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
                 <div class="col-md-6">
