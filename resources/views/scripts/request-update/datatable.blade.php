@@ -211,6 +211,8 @@ $(function(){
         if (confirm("Ready to Confirm this Action ?") == true) {
             e.preventDefault(); // avoid to execute the actual submit of the form.
 
+            $('#spinner-div').show();//Load button clicked show spinner
+
             var formData = new FormData(this);
             var actionUrl = "/api/request-update/import";
 
@@ -233,7 +235,8 @@ $(function(){
                     alert(data.message)
                     $('#modalRequestUpdate').modal('hide')
                     dtRequestUpdate.ajax.reload();
-                    
+                    $('#formImport').trigger('reset')
+                    $('#spinner-div').hide();
                 },
                 failed: function(xhr, textStatus, errorThrown){
                     alert(xhr.message);
