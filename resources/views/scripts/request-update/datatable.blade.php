@@ -1,6 +1,7 @@
 
 
-
+<input type="hidden" id="draw" value="1">
+<input type="hidden" id="length" value="10">
 <script type="text/javascript">
 
 $(function(){
@@ -8,8 +9,8 @@ $(function(){
     let draw = 0;
 
     var dtRequestUpdate = $('#dtRequestUpdate').DataTable( {
-        "processing": true,
-        "serverSide": true,
+        processing: true,
+        serverSide: true,
         responsive: true,
         language: {
             searchPlaceholder: "Search Here"
@@ -17,15 +18,17 @@ $(function(){
         ajax: {
             url: '/api/request-update/data',
             data: {
+                draw: function() {return $('#draw').val();}
             },
             dataType: "json",
             dataSrc: function (json) {
                 //if data is output as a json string then add these lines
                 // console.log(json.data);
-            
+                
                 return json.data;                      
             },
         },
+        // length: function() { return $("#length").val()},
         dom: '<"dataTables_wrapper dt-bootstrap"<"row"<"col-xl-7 d-block d-sm-flex d-xl-block justify-content-center"<"d-block d-lg-inline-flex me-0 me-md-3"l><"d-block d-lg-inline-flex"B>><"col-xl-5 d-flex d-xl-block justify-content-center"fr>>t<"row"<"col-md-5"i><"col-md-7"p>>>',
         buttons: [
             { 
@@ -36,34 +39,35 @@ $(function(){
                     columns: [0, 1, 2, 3, 4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28]
                 } 
             },
-            {
-                extend: 'excel', 
-                text: '<i class="fa fa-file-excel-o"></i> Excel All', 
-                className: 'btn-sm btn-info',
-                exportOptions: {
-                    columns: [0, 1, 2, 3, 4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28]
-                },
-                action: function (e, dt, node, config)
-                {
-                    var dtButton= this; //we need this as param for action.call()
-                    var currentPageLen = dt.page.len();
-                    var currentPage = dt.page.info().page;
+            // {
+            //     extend: 'excel', 
+            //     text: '<i class="fa fa-file-excel-o"></i> Excel All', 
+            //     className: 'btn-sm btn-info',
+            //     exportOptions: {
+            //         columns: [0, 1, 2, 3, 4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28]
+            //     },
+            //     action: function (e, dt, node, config)
+            //     {
+            //         var dtButton= this; //we need this as param for action.call()
+            //         var currentPageLen = dt.page.len();
+            //         var currentPage = dt.page.info().page;
                 
-                    dt.one( 'draw', function () {
-                        $.fn.DataTable.ext.buttons.excelHtml5.action.call(dtButton, e, dt, node, config); //trigger export
+            //         dt.one( 'draw', function () {
+            //             $.fn.DataTable.ext.buttons.excelHtml5.action.call(dtButton, e, dt, node, config); //trigger export
                 
-                        //setTimeout is needed here because action.call is async call
-                        //without setTimeout, pageLength will show all
-                        setTimeout(function() {
-                            dt.page.len(currentPageLen).draw(); //set page length
-                            dt.page(currentPage).draw('page'); //set current page
-                        }), 500;
-                    });
+            //             //setTimeout is needed here because action.call is async call
+            //             //without setTimeout, pageLength will show all
+            //             setTimeout(function() {
+            //                 dt.page.len(currentPageLen).draw(); //set page length
+            //                 dt.page(currentPage).draw('page'); //set current page
+            //             }), 500;
+            //         });
                 
-                    //draw all before export
-                    dt.page.len(-1).draw();
-                } 
-            },
+            //         //draw all before export
+            //         dt.page.len(-1).draw();
+                    
+            //     } 
+            // },
             // { 
             //     extend: 'pdf', 
             //     text: '<i class="fa fa-file-pdf-o"></i> PDF', 
@@ -200,6 +204,10 @@ $(function(){
         ],
         drawCallback: function (settings) { 
             // Here the response
+            var api = this.api();
+            var json = api.ajax.json();
+            let vdraw = parseInt($('#draw').val()) + 1
+            $('#draw').val(vdraw);
         },
     } );
 
@@ -209,6 +217,7 @@ $(function(){
     $('#formImport').on('submit', function(e) {
 
         if (confirm("Ready to Confirm this Action ?") == true) {
+            $('#modalRequestUpdate').modal('hide')
             e.preventDefault(); // avoid to execute the actual submit of the form.
 
             $('#spinner-div').show();//Load button clicked show spinner
