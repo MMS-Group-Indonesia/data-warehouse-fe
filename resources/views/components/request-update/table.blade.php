@@ -8,7 +8,10 @@
                         <div>
                             <h5 class="mb-0">All Request Update</h5>
                         </div>
-                        <a href="#" class="btn bg-gradient-primary btn-sm mb-0" type="button" data-bs-toggle="modal" data-bs-target="#modalRequestUpdate"><i class='fa fa-upload' ></i>&nbsp; Upload</a>
+                        <div class="pull-right">
+                            <a href="#" id="buttonRequestUpdateImport" class="btn bg-gradient-primary btn-sm mb-0" type="button" data-bs-toggle="modal" data-bs-target="#modalRequestUpdate"><i class='fa fa-upload' ></i>&nbsp; Upload</a>
+                            <a href="#" class="btn btn-danger btn-sm mb-0" type="button" data-bs-toggle="modal" data-bs-target="#modalRemove"><i class='fa fa-trash' ></i>&nbsp; Remove</a>
+                        </div>
                     </div>
                 </div>
                 <div class="card-body px-0 pt-0 pb-2">

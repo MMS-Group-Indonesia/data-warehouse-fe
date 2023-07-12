@@ -3,6 +3,7 @@
         {{-- Tables --}}
         <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css" />
         <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/2.4.0/css/buttons.dataTables.min.css" />
+        <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.16/dist/sweetalert2.min.css" rel="stylesheet">
         
         @include('components.request-update.table')
         @include('components.request-update.modal')
@@ -18,7 +19,7 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
         <script src="https://cdn.datatables.net/buttons/2.4.0/js/buttons.html5.min.js"></script>
         <script src="https://cdn.datatables.net/buttons/2.4.0/js/buttons.print.min.js"></script>
-    
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.16/dist/sweetalert2.all.min.js"></script>
 
 
 

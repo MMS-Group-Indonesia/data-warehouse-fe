@@ -214,16 +214,111 @@ $(function(){
     $.fn.dataTable.ext.errMode = 'none';
 
 
+    $('#buttonRequestUpdateImport').on('click', function() {
+        // getPeriodeExists($('#year').val(), $('#month').val());
+    })
+
     $('#formImport').on('submit', function(e) {
 
-        if (confirm("Ready to Confirm this Action ?") == true) {
-            $('#modalRequestUpdate').modal('hide')
+        $('#modalRequestUpdate').modal('hide')
+        const swalWithBootstrapButtons = Swal.mixin({
+        customClass: {
+            confirmButton: 'btn btn-success',
+            cancelButton: 'btn btn-danger'
+        },
+        buttonsStyling: false
+        })
+
+        swalWithBootstrapButtons.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, Import it!',
+        cancelButtonText: 'No, cancel!',
+        reverseButtons: true
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // proccess submit import
+                $('#modalRequestUpdate').modal('hide')
+                e.preventDefault(); // avoid to execute the actual submit of the form.
+
+                $('#spinner-div').show();//Load button clicked show spinner
+
+                var formData = new FormData(this);
+                var actionUrl = "/api/request-update/import";
+
+                e.preventDefault();
+
+                $.ajax({
+                    type: "POST",
+                    url: actionUrl,
+                    processData: false,
+                    contentType: false,
+                    dataType: 'json',
+                    // contentType: 'multipart/form-data; boundary=---------------------------974767299852498929531610575;',
+                    data: formData, // serializes the form's elements.
+                    success: function(data)
+                    {
+                        if(data.status === 0) {
+                            alertError('Error!', data.message);
+                            return false
+                        }
+                        alertSuccess('Success', data.message);
+                        $('#modalRequestUpdate').modal('hide')
+                        dtRequestUpdate.ajax.reload();
+                        $('#formImport').trigger('reset')
+                        $('#spinner-div').hide();
+                    },
+                    failed: function(xhr, textStatus, errorThrown){
+                        $('#spinner-div').hide();
+                        alert(xhr.message);
+                    }
+                });
+            } else if (
+                /* Read more about handling dismissals below */
+                result.dismiss === Swal.DismissReason.cancel
+            ) {
+                swalWithBootstrapButtons.fire(
+                'Cancelled',
+                'Your imaginary file is safe :)',
+                'error'
+                )
+            }
+        })
+
+        return false;
+        
+    });
+
+    $('#formRemove').on('submit', function(e) {
+
+        $('#modalRemove').modal('hide')
+        const swalWithBootstrapButtons = Swal.mixin({
+        customClass: {
+            confirmButton: 'btn btn-success',
+            cancelButton: 'btn btn-danger'
+        },
+        buttonsStyling: false
+        })
+
+        swalWithBootstrapButtons.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, delete it!',
+        cancelButtonText: 'No, cancel!',
+        reverseButtons: true
+        }).then((result) => {
+        if (result.isConfirmed) {
+            // proccess submit remove
             e.preventDefault(); // avoid to execute the actual submit of the form.
 
             $('#spinner-div').show();//Load button clicked show spinner
 
             var formData = new FormData(this);
-            var actionUrl = "/api/request-update/import";
+            var actionUrl = "/api/request-update/remove";
 
             e.preventDefault();
 
@@ -238,20 +333,33 @@ $(function(){
                 success: function(data)
                 {
                     if(data.status === 0) {
-                        alert(data.message)
+                        alertError('Error!', data.message);
                         return false
                     }
-                    alert(data.message)
-                    $('#modalRequestUpdate').modal('hide')
+                    alertSuccess('Success', data.message);
+                    
                     dtRequestUpdate.ajax.reload();
-                    $('#formImport').trigger('reset')
+                    $('#formRemove').trigger('reset')
                     $('#spinner-div').hide();
                 },
                 failed: function(xhr, textStatus, errorThrown){
+                    $('#spinner-div').hide();
                     alert(xhr.message);
                 }
             });
+
+        } else if (
+            /* Read more about handling dismissals below */
+            result.dismiss === Swal.DismissReason.cancel
+        ) {
+            swalWithBootstrapButtons.fire(
+            'Cancelled',
+            'Your imaginary file is safe :)',
+            'error'
+            )
         }
+        })
+
         return false;
 
 
@@ -289,97 +397,126 @@ $(function(){
 
     fileUploadEvent('file_upload', 'filebase64', 'filename');
 
-    // open modal add new invoice 
-    $('#openModalAddNew').on('click', function () {
-        let vendor_code = $(this).attr('data-vendor_code')
-        let po_code = $(this).attr('data-po_code')
-
-        $('#modalAdd #vendor_code').val(vendor_code)
-        $('#modalAddNew #po_code').val(po_code)
-
-        $('#modalAddNew').modal('show')
-        return false;
-    });
-
-    // open modal approve invoice 
-    $('#dtRequestUpdate').on('click', '#openModalApprove', function() {
-        let vendor_code = $(this).attr('data-vendor_code')
-        let po_code = $(this).attr('data-po_code')
-        let invoice_number = $(this).attr('data-invoice_number')
-        let invoice_id = $(this).attr('data-invoice_id')
-
-        $('#modalApprove .vendor_code').attr('value', vendor_code)
-        $('#modalApprove .po_code').attr('value', po_code)
-        $('#modalApprove .invoice_number').attr('value', invoice_number)
-        $('#modalApprove .invoice_id').attr('value', invoice_id)
-
-        $('#modalApprove').modal('show')
-        return false;
-    });
-
-    // open modal reject invoice 
-    $('#dtRequestUpdate').on('click', '#openModalReject', function() {
-        let vendor_code = $(this).attr('data-vendor_code')
-        let po_code = $(this).attr('data-po_code')
-        let invoice_number = $(this).attr('data-invoice_number')
-        let invoice_id = $(this).attr('data-invoice_id')
-
-        $('#modalReject .vendor_code').attr('value', vendor_code)
-        $('#modalReject .po_code').attr('value', po_code)
-        $('#modalReject .invoice_number').attr('value', invoice_number)
-        $('#modalReject .invoice_id').attr('value', invoice_id)
-
-        $('#modalReject').modal('show')
-        return false;
-    });
-
-    $('#dtRequestUpdate').on('click', '#btn-view-attachments', function() {
-        let invoice_id = $(this).attr('data-invoice_id')
-        let draw = 1;
-
-        $('#modalViewListAttachments').modal('show')
-
-        loadDataTableAttachment(invoice_id, draw)
-        
-        
-    })
-
-    // trigger save on modal add new invoice
-    $("#formAddNew").submit(function(e) {
-
-        if (confirm("Ready to Save this Data ?") == true) {
-            e.preventDefault(); // avoid to execute the actual submit of the form.
-
-            var formData = new FormData(this);
-            var actionUrl = $(this).attr('action')
-
-            $.ajax({
-                type: "POST",
-                url: actionUrl,
-                contentType: false,
-                processData: false,
-                dataType: 'json',
-                data: formData, // serializes the form's elements.
-                success: function(data)
-                {
-                    if(data.status === 0) {
-                        alert(data.message);
-                        return false
-                    }
-                    alert(data.message);
-                    $('#modalAddNew').modal('hide')
-                    if ( $.fn.dataTable.isDataTable( '#dtRequestUpdate' ) ) {
-                        dtRequestUpdate.ajax.reload()
-                    }
-                },
-                failed: function(xhr, textStatus, errorThrown){
-                    alert(xhr.message);
+    let list_year_periode = [];
+    let list_month_periode = [];
+    function getPeriodeExists(year, month)
+    {
+        $.ajax({
+            type: "GET",
+            url: '{{ route("index-request-update-periode-exist-api") }}',
+            contentType: false,
+            processData: false,
+            dataType: 'json',
+            data: [], 
+            success: function(data)
+            {
+                console.log(data.year, data.month)
+                
+                if(jQuery.inArray(month, data.month) !== -1) {
+                    console.log(month, jQuery.inArray(month, data.month));
+                    Swal.fire(
+                        'Periode exist',
+                        'Periode Month : '+month+' is exist on database',
+                        'warning'
+                    )
                 }
-            });
-        }
-        return false;
+                
+                if(jQuery.inArray(year, data.year) !== -1) {
+                    console.log(year, jQuery.inArray(year, data.year));
+                    Swal.fire(
+                        'Periode exist',
+                        'Periode Year : '+year+' is exist on database',
+                        'warning'
+                    )
+                }
+                
+            },
+            failed: function(xhr, textStatus, errorThrown){
+                alertError('Error!', xhr.message);
+                return false;
+            }
+        });
+    }
 
+    $('#select-year').on('change', function() {
+        getPeriodeExists($('#select-year').val(), null);
     })
+
+    $('#select-month').on('change', function() {
+        getPeriodeExists(null, $('#select-month').val());
+    })
+
+
+    function alertConfirm(title = 'Are Yo Sure?', 
+        text = "You won't be able to revert this!", 
+        icon = 'warning', 
+        confirmButtonText = 'Yes, delete it!',
+        cancelButtonText = 'No, cancel!',
+        ConfirmSwalWithBootstrapButtons = ['Deleted!', 'Your file has been deleted.','success'],
+        DismissSwalWithBootstrapButtons = ['Cancelled','Your imaginary file is safe :)','error']
+        ) {
+
+        const swalWithBootstrapButtons = Swal.mixin({
+        customClass: {
+            confirmButton: 'btn btn-success',
+            cancelButton: 'btn btn-danger'
+        },
+        buttonsStyling: false
+        })
+
+        swalWithBootstrapButtons.fire({
+        title: title,
+        text: text,
+        icon: icon,
+        showCancelButton: true,
+        confirmButtonText: confirmButtonText,
+        cancelButtonText: 'No, cancel!',
+        reverseButtons: true
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // swalWithBootstrapButtons.fire(
+                //     ConfirmSwalWithBootstrapButtons[0],
+                //     ConfirmSwalWithBootstrapButtons[1],
+                //     ConfirmSwalWithBootstrapButtons[2]
+                // )
+                return true;
+            } else if (
+                /* Read more about handling dismissals below */
+                result.dismiss === Swal.DismissReason.cancel
+            ) {
+                swalWithBootstrapButtons.fire(
+                    DismissSwalWithBootstrapButtons[0],
+                    DismissSwalWithBootstrapButtons[1],
+                    DismissSwalWithBootstrapButtons[2]
+                )
+                return false;
+            }
+        })
+    }
+
+    function alertSuccess(title, message){
+        Swal.fire(
+            title,
+            message,
+            'success'
+        )
+    }
+
+    function alertWarning(title, message){
+        Swal.fire(
+            title,
+            message,
+            'warning'
+        )
+    }
+
+    function alertError(title, message){
+        Swal.fire(
+            title,
+            message,
+            'error'
+        )
+    }
 
 });
 

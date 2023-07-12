@@ -24,5 +24,9 @@ Route::group([ 'middleware' => 'api', 'prefix' => '', 'namespace' => 'App\Http\C
 
     Route::get('/request-update/data', 'EmployeeController@request_update_data')->name('index-request-update-data-api');
 
+    Route::get('/request-update/periode/exist', 'EmployeeController@request_update_periode_exist')->name('index-request-update-periode-exist-api');
+
     Route::post('/request-update/import', 'EmployeeController@request_update_import')->name('index-request-update-import-api');
+
+    Route::post('/request-update/remove', 'EmployeeController@request_update_remove')->name('index-request-update-remove-api');
 });

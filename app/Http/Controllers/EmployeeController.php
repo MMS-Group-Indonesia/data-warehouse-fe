@@ -33,11 +33,28 @@ class EmployeeController extends Controller
         return response()->json($data,  200);
     }
 
+    /**
+     * Display a listing of the resource.
+     */
+    public function request_update_periode_exist(EmployeeRequest $request)
+    {
+        $data = $request->getPeriodeExist();
+        
+        return response()->json($data,  200);
+    }
+
     public function request_update_import(EmployeeRequest $request)
     {
         $import = $request->import();
 
         return response()->json($import,  200); 
+    }
+
+    public function request_update_remove(EmployeeRequest $request)
+    {
+        $remove = $request->remove();
+
+        return response()->json($remove,  200); 
     }
 
     /**

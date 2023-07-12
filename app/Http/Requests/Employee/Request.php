@@ -95,6 +95,29 @@ class Request extends FormRequest
         
     }
 
+    public function getPeriodeExist()
+    {
+
+        $periode_year = RequestUpdate::select('periode_year')->groupBy('periode_year')->get();
+        $periode_month = RequestUpdate::select('periode_month')->groupBy('periode_month')->get();
+
+        $response = [
+            'year' => [],
+            'month' => []
+        ];
+
+        foreach($periode_year as $periode) {
+            $response['year'][] = $periode->periode_year;
+        }
+
+        foreach($periode_month as $periode) {
+            $response['month'][] = $periode->periode_month;
+        }
+
+        return $response;
+        
+    }
+
     public function import(){
 
         try {
@@ -324,6 +347,43 @@ class Request extends FormRequest
             $requestUpdateLogs->save();
 
             return 0;
+        }
+
+        
+
+    }
+
+    public function remove()
+    {
+        $input = (Object)$this->all();
+        // remove
+        try {
+            
+            $removeData = RequestUpdate::where(['periode_year' => $input->year])->where(['periode_month' => $input->month]);
+            $removeData->delete();
+            if($removeData) {
+                return [
+                    'status' => 1,
+                    'message' => 'Remove Data Successfully'
+                ];
+            }
+        }catch(Exception $ex) {
+            $requestUpdateLogs = new RequestUpdateLogs();
+            $requestUpdateLogs->name = 'Remove Data Error';
+            $requestUpdateLogs->request = json_encode($input);
+            $requestUpdateLogs->response = json_encode([
+                'code' => $ex->getCode(),
+                'message' => $ex->getMessage(),
+                'line' => $ex->getLine(),
+                'trace' => $ex->getTrace(),
+                
+            ]);
+            $requestUpdateLogs->save();
+
+            return [
+                'status' => 0,
+                'message' => 'Remove Data Failed!'
+            ];
         }
 
         

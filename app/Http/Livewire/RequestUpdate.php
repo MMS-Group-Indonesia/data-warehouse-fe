@@ -44,7 +44,7 @@ class RequestUpdate extends Component
     public function setMonth()
     {
         for($i = 1; $i <= 12; $i++) {
-            $this->series_month[] = $i;
+            $this->series_month[] = date('F', strtotime("1997-$i-20"));
         }
     }
 }
