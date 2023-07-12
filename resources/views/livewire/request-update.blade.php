@@ -4,6 +4,26 @@
         <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css" />
         <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/2.4.0/css/buttons.dataTables.min.css" />
         <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.16/dist/sweetalert2.min.css" rel="stylesheet">
+
+        <style>
+        div#dtRequestUpdate_paginate {
+            float: left;
+        }
+        div#dtRequestUpdate_length {
+            font-size: 12px;;
+        }
+        .buttons-excel {
+            display:none;
+        }
+
+        .hide {
+            display:none !important;
+        }
+        .dtRequestUpdate_wrapper row {
+            margin-left:15px !important;
+            margin-right: 15px !important;
+        }
+        </style>
         
         @include('components.request-update.table')
         @include('components.request-update.modal')

@@ -8,9 +8,10 @@
                         <div>
                             <h5 class="mb-0">All Request Update</h5>
                         </div>
-                        <div class="pull-right">
+                        <div class="pull-right mb-2">
                             <a href="#" id="buttonRequestUpdateImport" class="btn bg-gradient-primary btn-sm mb-0" type="button" data-bs-toggle="modal" data-bs-target="#modalRequestUpdate"><i class='fa fa-upload' ></i>&nbsp; Upload</a>
                             <a href="#" class="btn btn-danger btn-sm mb-0" type="button" data-bs-toggle="modal" data-bs-target="#modalRemove"><i class='fa fa-trash' ></i>&nbsp; Remove</a>
+                            <a href="#" class="btn btn-info btn-sm mb-0" type="button" id="exportExcel"><i class='fa fa-file-excel-o' ></i>&nbsp; Export Excel</a>
                         </div>
                     </div>
                 </div>
@@ -45,11 +46,11 @@
                                             <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                                 Action
                                             </th> -->
-                                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                            <th class="text-uppercase text-bold text-xxs font-weight-bolder opacity-7">
                                                 {!! $col['comment'] !!}
                                             </th>
                                             @endforeach
-                                            <th class="text-center text-uppercase text-bold text-xxs font-weight-bolder opacity-7">
+                                            <th class="text-uppercase text-xxs opacity-7">
                                                 Action
                                             </th>
                                         </tr>
