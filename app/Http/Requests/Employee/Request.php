@@ -88,8 +88,22 @@ class Request extends FormRequest
 
     public function getDataRequestUpdate()
     {
+        $input = (Object) $this->all();
+        $requestUpdate = new RequestUpdate();
 
-        $requestUpdate = RequestUpdate::orderBy('uploaded_at','desc')->get();
+        $columns = isset($input->columns) ? $input->columns : [];
+        
+        for($i = 0; $i < count($columns); $i++) {
+            $column = $input->columns[$i];
+            if($column['searchable'] == true) {
+                if($column['search']['value'] != null || $column['search']['value'] != "") {
+                    $requestUpdate->where([$column['data'] => '%'. $column['search']['value'] .'%' ]);
+                }
+                
+            }
+        }
+
+        $requestUpdate = $requestUpdate->orderBy('uploaded_at','desc')->get();
 
         return $requestUpdate;
         

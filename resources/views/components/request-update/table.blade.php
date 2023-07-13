@@ -58,6 +58,42 @@
                                     <tbody>
                                     
                                     </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <th class="text-center text-uppercase text-bold text-xxs font-weight-bolder opacity-7">
+                                                No
+                                            </th>
+                                            @foreach($columns as $col)
+                                            <!-- <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                                ID
+                                            </th>
+                                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                                Photo
+                                            </th>
+                                            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                                Name
+                                            </th>
+                                            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                                Email
+                                            </th>
+                                            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                                role
+                                            </th>
+                                            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                                Creation Date
+                                            </th>
+                                            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                                Action
+                                            </th> -->
+                                            <th class="text-uppercase text-bold text-xxs font-weight-bolder opacity-7">
+                                                {!! $col['comment'] !!}
+                                            </th>
+                                            @endforeach
+                                            <th class="text-uppercase text-xxs opacity-7">
+                                                Action
+                                            </th>
+                                        </tr>
+                                    </tfoot>
                                 </table>
                             </div>
                     

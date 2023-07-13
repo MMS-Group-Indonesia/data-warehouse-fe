@@ -9,9 +9,10 @@ $(function(){
     let draw = 0;
 
     var dtRequestUpdate = $('#dtRequestUpdate').DataTable( {
-        processing: true,
+        processing: false,
         serverSide: true,
         responsive: true,
+        bFilter: true,
         language: {
             searchPlaceholder: "Search Here"
         },
@@ -209,7 +210,41 @@ $(function(){
             let vdraw = parseInt($('#draw').val()) + 1
             $('#draw').val(vdraw);
         },
+        initComplete: function () {
+            let i = 0;
+            this.api()
+                .columns()
+                .every(function (value, index) {
+                    let column = this;
+                    let title = column.footer().textContent;
+    
+                    // Create input element
+                    let input = document.createElement('input');
+                    input.classList.add('searchbar_col_' + i);
+                    input.placeholder = title;
+                    column.footer().replaceChildren(input);
+    
+                    // Event listener for user input
+                    input.addEventListener('keyup', () => {
+                        if (column.search() !== this.value) {
+                            let vdraw = parseInt($('#draw').val()) + 1
+                            $('#draw').val(vdraw);
+                            column.search(input.value).draw();
+                        }
+                    });
+                    // $('.searchbar_col_' + 1).on('keyup', function() {
+                    //     if (dtRequestUpdate.column(i).search() !== input.value) {
+                    //         dtRequestUpdate.column(i).search(input.value).draw();
+                    //     }
+                    // })
+                    i++;
+                });
+        } 
     } );
+
+    $('#dtRequestUpdate_filter').hide(); // Hide default search datatables where example is the ID of table
+ 
+ 
 
     $.fn.dataTable.ext.errMode = 'none';
 

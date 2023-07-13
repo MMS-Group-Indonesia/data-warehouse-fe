@@ -23,6 +23,9 @@
             margin-left:15px !important;
             margin-right: 15px !important;
         }
+        tfoot {
+            display: table-header-group;
+        }
         </style>
         
         @include('components.request-update.table')
