@@ -249,6 +249,11 @@ $(function(){
 
     $.fn.dataTable.ext.errMode = 'none';
 
+    dtRequestUpdate.on( 'length', function ( e, settings, len ) {
+        let vdraw = parseInt($('#draw').val()) + 1
+        $('#draw').val(vdraw);
+    } );
+
 
     $('#buttonRequestUpdateImport').on('click', function() {
         // getPeriodeExists($('#year').val(), $('#month').val());
