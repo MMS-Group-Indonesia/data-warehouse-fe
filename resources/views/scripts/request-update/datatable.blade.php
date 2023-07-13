@@ -158,13 +158,13 @@ $(function(){
         ],
         columnDefs: [
             // {"data":"id","targets": 0},
-            {"data":"request_update_id", "class": "text-center", "targets": 0, 
+            {"data":"request_update_id", "class": "text-center width-30", "targets": 0, "width" : '30px', "searchable": false,
                 render: function(data, type, row, meta) {
                     return meta.row + 1
                 }
             },
             {"data":"hrbp","targets": 1},
-            {"data":"nik","targets": 2},
+            {"data":"nik","targets": 2, "class": 'text-center'},
             {"data":"fullname","targets": 3},
             {"data":"nationality","targets": 4},
             {"data":"join_date","targets": 5},
@@ -189,7 +189,7 @@ $(function(){
             {"data":"expired_at","targets": 24},
             {"data":"upload_filename","targets": 25},
             {"data":"uploaded_at","targets": 26},
-            {"data":"periode_year","targets": 27},
+            {"data":"periode_year","targets": 27, "class": 'text-center'},
             {"data":"periode_month","targets": 28},
             // {"data":"expired_at","targets": 24},
             // {"data":"created_at","targets": 25},
@@ -217,7 +217,7 @@ $(function(){
                 .every(function (value, index) {
                     let column = this;
                     let title = column.footer().textContent;
-    
+                    console.log(column.searchable)
                     // Create input element
                     let input = document.createElement('input');
                     input.classList.add('searchbar_col_' + i);
@@ -232,6 +232,7 @@ $(function(){
                             column.search(input.value).draw();
                         }
                     });
+                    
                     // $('.searchbar_col_' + 1).on('keyup', function() {
                     //     if (dtRequestUpdate.column(i).search() !== input.value) {
                     //         dtRequestUpdate.column(i).search(input.value).draw();

@@ -21,10 +21,10 @@
                                 <table class="table table-striped table-bordered table-responsive align-items-center mb-0" id="dtRequestUpdate" style="width:100%;" >
                                     <thead>
                                         <tr>
-                                            <th class="text-center text-uppercase text-bold text-xxs font-weight-bolder opacity-7">
+                                            <th class="text-center text-uppercase text-bold text-xxs font-weight-bolder opacity-7" >
                                                 No
                                             </th>
-                                            @foreach($columns as $col)
+                                            @foreach($columns as $key => $col)
                                             <!-- <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                                 ID
                                             </th>
@@ -61,7 +61,7 @@
                                     <tfoot>
                                         <tr>
                                             <th class="text-center text-uppercase text-bold text-xxs font-weight-bolder opacity-7">
-                                                No
+                                                
                                             </th>
                                             @foreach($columns as $col)
                                             <!-- <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
@@ -85,12 +85,12 @@
                                             <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                                 Action
                                             </th> -->
-                                            <th class="text-uppercase text-bold text-xxs font-weight-bolder opacity-7">
-                                                {!! $col['comment'] !!}
+                                            <th class="text-uppercase text-bold font-weight-bolder opacity-7">
+                                                
                                             </th>
                                             @endforeach
-                                            <th class="text-uppercase text-xxs opacity-7">
-                                                Action
+                                            <th class="text-center text-uppercase text-bold text-xxs font-weight-bolder opacity-7">
+                                                
                                             </th>
                                         </tr>
                                     </tfoot>

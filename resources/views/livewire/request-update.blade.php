@@ -16,6 +16,14 @@
             display:none;
         }
 
+        div#dtRequestUpdate_length tfoot {
+            font-size: 12px;;
+        }
+
+        div#dtRequestUpdate_length thead {
+            font-size: 12px;;
+        }
+
         .hide {
             display:none !important;
         }
@@ -23,8 +31,24 @@
             margin-left:15px !important;
             margin-right: 15px !important;
         }
+
+        .width-30 {
+            width:30px !important;
+        }
         tfoot {
             display: table-header-group;
+        }
+        tfoot .searchbar_col_0, .searchbar_col_29 {
+            display:none;
+        }
+        tfoot .searchbar_col_2 {
+            width: 100px;
+        }
+        tfoot .searchbar_col_27 {
+            width: 50px;
+        }
+        tfoot .searchbar_col_28 {
+            width: 100px;
         }
         </style>
         
