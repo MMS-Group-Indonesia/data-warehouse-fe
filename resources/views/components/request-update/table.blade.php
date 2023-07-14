@@ -16,12 +16,12 @@
                     </div>
                 </div>
                 <div class="card-body px-0 pt-0 pb-2">
-                    <div class="box box-info p-1 table-responsive">
+                    <div class="box box-info p-3">
                             <div class="box-body">
-                                <table class="table table-striped table-bordered table-responsive align-items-center mb-0" id="dtRequestUpdate" style="width:100%;" >
+                                <table class="table table-bordered stripe row-border order-column nowrap" style="width:100% !important;" cellspacing="0" id="dtRequestUpdate" style="width:100%;" >
                                     <thead>
                                         <tr>
-                                            <th class="text-center text-uppercase text-bold text-xxs font-weight-bolder opacity-7" >
+                                            <th class="text-center text-uppercase text-bold text-xxs font-weight-bolder" >
                                                 No
                                             </th>
                                             @foreach($columns as $key => $col)
@@ -46,11 +46,18 @@
                                             <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                                 Action
                                             </th> -->
-                                            <th class="text-uppercase text-bold text-xxs font-weight-bolder opacity-7">
+                                            @if($key == 0)
+                                            <th class="text-uppercase text-bold text-xxs font-weight-bolder" style="width:203px !important;">
                                                 {!! $col['comment'] !!}
                                             </th>
+                                            @else
+                                            <th class="text-uppercase text-bold text-xxs font-weight-bolder">
+                                                {!! $col['comment'] !!}
+                                            </th>
+                                            @endif
+                                            
                                             @endforeach
-                                            <th class="text-uppercase text-xxs opacity-7">
+                                            <th class="text-uppercase text-xxs">
                                                 Action
                                             </th>
                                         </tr>
@@ -60,36 +67,15 @@
                                     </tbody>
                                     <tfoot>
                                         <tr>
-                                            <th class="text-center text-uppercase text-bold text-xxs font-weight-bolder opacity-7">
+                                            <th class="text-center text-uppercase text-bold text-xxs font-weight-bolder width-60" style="width:60px !important;">
                                                 
                                             </th>
                                             @foreach($columns as $col)
-                                            <!-- <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                                ID
-                                            </th>
-                                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
-                                                Photo
-                                            </th>
-                                            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                                Name
-                                            </th>
-                                            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                                Email
-                                            </th>
-                                            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                                role
-                                            </th>
-                                            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                                Creation Date
-                                            </th>
-                                            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                                Action
-                                            </th> -->
-                                            <th class="text-uppercase text-bold font-weight-bolder opacity-7">
-                                                
+                                            <th class="text-uppercase text-bold text-xxs font-weight-bolder">
+                                                {!! $col['comment'] !!}
                                             </th>
                                             @endforeach
-                                            <th class="text-center text-uppercase text-bold text-xxs font-weight-bolder opacity-7">
+                                            <th class="text-uppercase text-xxs">
                                                 
                                             </th>
                                         </tr>

@@ -11,8 +11,17 @@ $(function(){
     var dtRequestUpdate = $('#dtRequestUpdate').DataTable( {
         processing: false,
         serverSide: true,
-        responsive: true,
         bFilter: true,
+        scrollX: true,
+        fixedColumns: {
+            left: 4,
+            right: 3
+        },
+        fixedHeader: {
+            header: true,
+            fotoer: true
+        },
+        scrollCollapse: true,
         language: {
             searchPlaceholder: "Search Here"
         },
@@ -158,12 +167,12 @@ $(function(){
         ],
         columnDefs: [
             // {"data":"id","targets": 0},
-            {"data":"request_update_id", "class": "text-center width-30", "targets": 0, "width" : '30px', "searchable": false,
+            {"data":"request_update_id", "class": "text-center", "targets": 0, "width" : '30px', "searchable": false,
                 render: function(data, type, row, meta) {
                     return meta.row + 1
                 }
             },
-            {"data":"hrbp","targets": 1},
+            {"data":"hrbp","targets": 1, "width" : '210px',},
             {"data":"nik","targets": 2, "class": 'text-center'},
             {"data":"fullname","targets": 3},
             {"data":"nationality","targets": 4},
@@ -195,6 +204,7 @@ $(function(){
             // {"data":"created_at","targets": 25},
             // {"data":"updated_at","targets": 26},
             {
+                "data": "request_update_id",
                 "targets": 29,
                 "searchable": false,
                 'orderable': false,
@@ -209,6 +219,7 @@ $(function(){
             var json = api.ajax.json();
             let vdraw = parseInt($('#draw').val()) + 1
             $('#draw').val(vdraw);
+            
         },
         initComplete: function () {
             let i = 0;
@@ -216,13 +227,26 @@ $(function(){
                 .columns()
                 .every(function (value, index) {
                     let column = this;
-                    let title = column.footer().textContent;
-                    console.log(column.searchable)
+                    let title = column.footer().textContent.trim();
+                    
+
+                    let input;
                     // Create input element
-                    let input = document.createElement('input');
-                    input.classList.add('searchbar_col_' + i);
-                    input.placeholder = title;
-                    column.footer().replaceChildren(input);
+                    if(i === 5) {
+                        input = document.createElement('input');
+                        input.setAttribute("type", "date");
+                        input.classList.add('searchbar_col_' + i);
+                        input.classList.add('form-control-sm');
+                        input.placeholder = title;
+                        column.footer().replaceChildren(input);
+                    }else {
+                        input = document.createElement('input');
+                        input.classList.add('searchbar_col_' + i);
+                        input.classList.add('form-control-sm');
+                        input.placeholder = title;
+                        column.footer().replaceChildren(input);
+                    }
+                    
     
                     // Event listener for user input
                     input.addEventListener('keyup', () => {
@@ -233,21 +257,30 @@ $(function(){
                         }
                     });
                     
-                    // $('.searchbar_col_' + 1).on('keyup', function() {
-                    //     if (dtRequestUpdate.column(i).search() !== input.value) {
-                    //         dtRequestUpdate.column(i).search(input.value).draw();
-                    //     }
-                    // })
+                    dtRequestUpdate.ajax.reload();
                     i++;
                 });
+
+            // $('#dtRequestUpdate thead tr th').each( function (k, v) {
+            //     if(k !== 0 && k !== 29) {
+            //         var title = $(this).text().trim();
+            //         $(this).append( '<input type="text" style = "width:100%;" placeholder="'+title+'" />' );
+            //     }
+                
+            // } );
         } 
     } );
 
     $('#dtRequestUpdate_filter').hide(); // Hide default search datatables where example is the ID of table
  
  
+    $('#dtRequestUpdate tfoot tr th').each( function () {
+        console.log('dd')
+        var title = $(this).text();
+        $(this).html( '<input type="text" style = "width:70px;" placeholder="'+title+'" />' );
+    } );
 
-    $.fn.dataTable.ext.errMode = 'none';
+    // $.fn.dataTable.ext.errMode = 'none';
 
     dtRequestUpdate.on( 'length', function ( e, settings, len ) {
         let vdraw = parseInt($('#draw').val()) + 1
